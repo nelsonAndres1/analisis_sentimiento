@@ -326,14 +326,15 @@ def predict_fn(texts):
     X_ohe = encoder.transform(X_vec.toarray())
     return svm_model_best.predict_proba(X_ohe)
 
-idx = 0
+idx = 12
 text_instance = X_test2.iloc[idx]
 
 explainer = LimeTextExplainer(class_names=np.unique(y).tolist())
-explanation = explainer.explain_instance(text_instance, predict_fn, num_features=10)
+explanation = explainer.explain_instance(text_instance, predict_fn, num_features=10, labels=[0,1,2])
 
 # Mostrar resultados
 explanation.show_in_notebook()
+#html_explanation = explanation.as_html(labels=[0])
 html_explanation = explanation.as_html()
 display(HTML(html_explanation))
 
